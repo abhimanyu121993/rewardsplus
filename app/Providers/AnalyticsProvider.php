@@ -14,7 +14,7 @@ class AnalyticsProvider implements Repository
     {
         // Load the configuration values from the database or any other source
         $this->configValues = [
-            'credentials_json' => storage_path('app/analytics/service-account-credentials.json'),
+            'credentials_json' => storage_path('storage/app/analytics/service-account-credentials.json'),
             // Add other configuration values as needed
         ];
     }
