@@ -5,6 +5,8 @@ use Spatie\Analytics\Facades\Analytics;
 use Spatie\Analytics\Period;
 use Carbon\Carbon;
 use App\Http\controllers\admin\DashboardController;
+use App\Http\Controllers\admin\AuthController as AdminAuth;
+use App\Http\Controllers\employee\AuthController as EmployeeAuth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,7 +25,14 @@ $endDate = Carbon::now();
 dd($analyticsData = Analytics::fetchVisitorsAndPageViews(Period::days(7)));
 
 });
-
+Route::group(['prefix'=>'auth','as'=>'auth.','domain'=>'admin.'. env('APP_URL')],function(){
+    Route::get('login',[AdminAuth::class,'login_view'])->name('login-view');
+    Route::post('login',[AdminAuth::class,'login'])->name('login');
+});
+Route::group(['prefix'=>'auth','as'=>'auth.','domain'=>'employee.'. env('APP_URL')],function(){
+    Route::get('login',[EmployeeAuth::class,'login_view'])->name('login-view');
+    Route::post('login',[EmployeeAuth::class,'login'])->name('login');
+});
 // Route::get('/', function () {
 //     return 'First sub domain';
 // // })->domain('admin.' . env('APP_URL'));

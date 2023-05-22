@@ -8,10 +8,9 @@ use App\Http\controllers\admin\RolePermissionController;
 use App\Http\controllers\admin\CompanyController;
 use App\Http\controllers\admin\StoreController;
 // Auth Route
-Route::group(['prefix'=>'auth','as'=>'auth.'],function(){
-    Route::get('login',[AuthController::class,'login_view']);
-    Route::post('login',[AuthController::class,'login']);
-});
+
+// logout route
+Route::get('auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
 Route::group(['prefix' => 'role-permission', 'as' => 'role-permission.'], function () {
     Route::resource('role', RoleController::class)->name('role', '');
     Route::resource('permission', PermissionController::class)->name('permission', '');

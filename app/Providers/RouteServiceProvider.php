@@ -37,7 +37,7 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')->as('admin.')
             ->group(base_path('routes/admin.php'))->domain('admin.'. env('APP_URL'));
             
-            Route::middleware('web')->as('admin.')
+            Route::middleware(['web','auth:admin'])->as('admin.')
             ->group(base_path('routes/employee.php'))->domain('employee.'. env('APP_URL'));
 
             //company route

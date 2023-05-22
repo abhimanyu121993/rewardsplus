@@ -27,4 +27,10 @@ class AuthController extends Controller
         return redirect()->back()->with('toast_error','Invalid Credentials');
     }
    }
+
+   //logout
+   public function logout(){
+    Auth::guard(PermissionName::$admin)->logout(); 
+    return redirect()->route('auth.login-view')->with('toast_success','Logged Out');
+    }
 }

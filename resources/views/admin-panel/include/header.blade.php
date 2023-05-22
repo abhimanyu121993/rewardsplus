@@ -225,12 +225,12 @@
           </li> --}}
           <li class="profile-nav onhover-dropdown">
             <div class="account-user"><i data-feather="user"></i></div>
-            {{-- <ul class="profile-dropdown onhover-show-div">
-              <li><a href="user-profile.html"><i data-feather="user"></i><span>Account</span></a></li>
+            <ul class="profile-dropdown onhover-show-div">
+              {{-- <li><a href="user-profile.html"><i data-feather="user"></i><span>Account</span></a></li>
               <li><a href="email_inbox.html"><i data-feather="mail"></i><span>Inbox</span></a></li>
-              <li><a href="edit-profile.html"><i data-feather="settings"></i><span>Settings</span></a></li>
-              <li><a href="login.html"><i data-feather="log-in"> </i><span>Log in</span></a></li>
-            </ul> --}}
+              <li><a href="edit-profile.html"><i data-feather="settings"></i><span>Settings</span></a></li> --}}
+              <li><a href="{{ route(Helper::getGuard().'.auth.logout') }}"><i data-feather="log-out"> </i><span>Logout</span></a></li>
+            </ul>
           </li>
         </ul>
       </div>
