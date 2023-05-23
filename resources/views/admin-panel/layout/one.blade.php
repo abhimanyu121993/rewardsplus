@@ -28,7 +28,13 @@
       <!-- Page Body Start-->
       <div class="page-body-wrapper">
         <!-- Page Sidebar Start-->
-       @include('admin-panel.include.sidebar')
+        @if(Helper::getGuard()=='admin')
+          @include('admin-panel.include.sidebar')
+        @elseif(Helper::getGuard()=='employee')
+          @include('admin-panel.include.employee-sidebar')
+          @elseif(Helper::getGuard()=='company')
+          @include('admin-panel.include.company-sidebar')
+        @endif
         <!-- Page Sidebar Ends-->
         <div class="page-body">
           @yield('bread-crumb')

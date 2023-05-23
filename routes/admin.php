@@ -2,11 +2,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\RoleController;
 use App\Http\Controllers\admin\AuthController;
-use App\Http\controllers\admin\DashboardController;
-use App\Http\controllers\admin\PermissionController;
-use App\Http\controllers\admin\RolePermissionController;
-use App\Http\controllers\admin\CompanyController;
-use App\Http\controllers\admin\StoreController;
+use App\Http\Controllers\admin\DashboardController;
+use App\Http\Controllers\admin\PermissionController;
+use App\Http\Controllers\admin\RolePermissionController;
+use App\Http\Controllers\admin\CompanyController;
+use App\Http\Controllers\admin\StoreController;
 // Auth Route
 
 // logout route

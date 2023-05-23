@@ -115,6 +115,9 @@ class Helper
         else if(Auth::guard(PermissionName::$store)->check()){
             return 'store';
         }
+        else if(Auth::guard(PermissionName::$employee)->check()){
+            return 'employee';
+        }
         else if(Auth::guard(PermissionName::$sanctum)->check()){
             return 'sanctum';
         }

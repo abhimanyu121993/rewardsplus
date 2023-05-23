@@ -11,5 +11,6 @@ class PermissionName extends Model
     public static $admin = 'admin';
     public static $company = 'company';
     public static $store = 'store';
+    public static $employee = 'employee';
     public static $sanctum='sanctum';
 }
