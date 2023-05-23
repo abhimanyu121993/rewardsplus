@@ -15,4 +15,9 @@ class Company extends Authenticatable
     {
         return $this->hasOne(CompanyDetail::class,'company_id');
     }
+    public function employeeable()
+    {
+        return $this->morphMany(Employee::class,'employeeable');
+
+    }
 }

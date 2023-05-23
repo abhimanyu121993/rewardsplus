@@ -19,7 +19,7 @@
             <hr>
             <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title active" href="javascript:void(0)"><i data-feather="home"></i><span >Analytics</span></a>
               <ul class="sidebar-submenu" style="display:block">
-                <li><a  href="{{route(Helper::getGuard().'.dashboard')}}" >Store Analytics </a></li>
+                <li><a @if(Route::has(Helper::getGuard().'.dashboard')) href="{{route(Helper::getGuard().'.dashboard')}}" @endif>Store Analytics </a></li>
                 {{-- <li><a class="lan-5" href="dashboard-02.html">Ecommerce</a></li> --}}
               </ul>
             </li>
