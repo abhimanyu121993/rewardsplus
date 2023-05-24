@@ -53,11 +53,18 @@
                 <tbody>
                     @foreach($companies as $company)
                     <tr>
-                        <td>{{ ($companies->currentPage()*10)+($loop->index + 1) }}</td>
+                        <td>{{ (($companies->currentPage()-1)*10)+($loop->index + 1) }}</td>
                         <td>{{ $company->name }}</td>
                         <td>{{ $company->company_detail->company_name??'' }}</td>
                         <td>{{ $company->email }}</td>
-                        <td>edit delete</td>
+                        <td class="d-flex gap-2">
+                            <button class="btn btn-outline-info-2x btn-square edit-company-btn" data-id="{{ $company->id  }}"><i class="fa fa-pencil-square-o"></i></a>
+                            <form action="{{ route('admin.company.destroy',$company->id) }}" method="post">
+                                @csrf
+                                @method('DELETE')
+                            <button class="btn btn-outline-danger-2x btn-square"><i class="fa fa-trash-o"></i></button>
+                        </form>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -206,6 +213,10 @@
         </div>
     </div>
 
+    {{-- Edit company --}}
+    <div class="modal fade" id="editcompany" data-bs-backdrop="static" tabindex="-1" aria-labelledby="editcompany" style="display: none;"
+aria-hidden="true">
+</div>
             @endsection
 
             @section('script-area')
@@ -229,6 +240,38 @@
                             }
 
 
+                        });
+                    });
+                    $(document).on('change', '#i_cat_edit', function() {
+                        var id = $(this).val();
+                        $.ajax({
+                            url: "{{ route('admin.company.subcategory') }}",
+                            method: 'post',
+                            data: {
+                                'category_id': id,
+                                'reqtype': 'op',
+                                '_token': "{{ csrf_token() }}"
+                            },
+                            beforeSend: function() {
+                                $('#i_cat_edit').attr('disabled', true);
+                            },
+                            success: function(data) {
+                                $('#i_subcat_edit').html(data);
+                                $('#i_cat_edit').removeAttr('disabled');
+                            }
+
+
+                        });
+                    });
+                    $(document).on('click','.edit-company-btn',function(){
+                        var id=$(this).data('id');
+                        $.ajax({
+                            url:"{{ url('company') }}/"+id+'/edit',
+                            method:'get',
+                            success:function(res){
+                               $('#editcompany').html(res);
+                               $('#editcompany').modal('show');
+                            },
                         });
                     });
                 </script>

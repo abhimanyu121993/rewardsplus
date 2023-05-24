@@ -3,6 +3,8 @@
 namespace App\Helpers;
 
 use App\Models\City;
+use App\Models\Company;
+use App\Models\CompanyCategory;
 use App\Models\Country;
 use App\Models\Currency;
 use App\Models\customer\Checkpoint;
@@ -17,7 +19,6 @@ use App\Models\State;
 use App\Models\TimeZone;
 use Exception;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -29,15 +30,6 @@ use Spatie\Permission\Models\Role;
 class Helper
 {
 
-    public static function Image($path,UploadedFile $file,$pre=null)
-    {
-        if($file->getSize()!=null){
-            $filename=($pre?$pre.'-':'').time().'-'.rand(00,99999).'.'.$file->extension();
-            $path=$file->storeAs($path,$filename,'public');
-            return $path;
-    }
-    }
-        
     public static function getCountries()
     {
         return $countries = Country::get();
@@ -143,37 +135,7 @@ class Helper
         throw new HttpResponseException(response()->json($response, $code));
     }
 
-    public static function getCheckpointByProperty($id)
-    {
-        try {
-           $property=Property::find($id);
-           return $checkpoints=$property->checkpoints;
-        }
-        catch(Exception $ex){
-            return response()->json(['message' => $ex->getMessage()],501);
-        }
-    }
-    public static function getRouteByProperty($id)
-    {
-        try {
-            $routes = Route::where('property_id', $id)->get();
-            return $routes;
-        }
-        catch(Exception $ex){
-            return response()->json(['message' => $ex->getMessage()],501);
-        }
-    }
 
-    public static function getShiftByProperty($id)
-    {
-        try {
-            $shifts = Shift::where('property_id', $id)->get();
-            return $shifts;
-        }
-        catch(Exception $ex){
-            return response()->json(['message' => $ex->getMessage()],501);
-        }
-    }
 
     public static function roleName($name)
     {
@@ -181,17 +143,6 @@ class Helper
          return $role[1];
     }
 
-    public static function getCustomerBySession()
-    {
-        if(Session::has('customer')){
-            $id=Crypt::decrypt(Session::get('customer'));
-            $customer=Customer::findOrFail($id);
-            return $customer;
-        }
-            Session::flash('warning','Customer Not Selected');
-            return redirect()->back();
-
-    }
 
     public static function saveUtc($date)
     {
@@ -222,10 +173,10 @@ class Helper
             return 'Date-Time Error';
         }
     }
-    public static function propertyDetailsById($id)
+ 
+    public static function getSubcategoriesByCategory($id)
     {
-        $res=Property::find($id);
-        return $res;
+       return CompanyCategory::find($id)->children;
     }
 
 }

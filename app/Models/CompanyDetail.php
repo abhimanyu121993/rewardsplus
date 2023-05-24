@@ -9,4 +9,9 @@ class CompanyDetail extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function category()
+    {
+      return $this->belongsTo(CompanyCategory::class,'company_category_id');
+    }
 }

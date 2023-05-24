@@ -89,15 +89,48 @@ class CompanyController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $categories=CompanyCategory::ParentCategories()->get();
+        $businesstypes=BusinessType::get();
+        $company=Company::find($id);
+        return view('company.edit-company',compact('categories','businesstypes','company'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $req, string $id)
     {
-        //
+        $req->validate([
+            'name'=>'required|string|max:255',
+            'mobile'=>'required',
+            'i_cat'=>'required|exists:company_categories,id',
+            'i_subcat'=>'required|exists:company_categories,id',
+            'business_type'=>'required|exists:business_types,id',
+            'company_name'=>'required|string|max:255',
+          ]);
+          $data=Company::find($id);
+          $data->update([
+            'name'=>$req->name,
+            'email'=>$req->email,
+            'mobile'=>$req->mobile,
+            'password'=>Hash::make($req->password),
+            'creatable_type'=>get_class(Auth::guard(Helper::getGuard())->user()),
+            'creatable_id'=>Auth::guard(Helper::getGuard())->user()->id,
+            'ownerable_type'=>get_class(Auth::guard(Helper::getGuard())->user()),
+            'ownerable_id'=>Auth::guard(Helper::getGuard())->user()->id
+    
+          ]);
+    
+          if($data){
+            $d=CompanyDetail::where('company_id',$data->id)->update(['company_id'=>$data->id,
+            'company_name'=>$req->company_name??'',
+            'company_category_id'=>$req->i_subcat??'',
+            'business_type_id'=>$req->business_type??''
+          ]);
+          }
+          if($d and $data){
+            return redirect()->back()->with('toast_success','Company updated Successfully');
+          }
     }
 
     /**
@@ -105,7 +138,10 @@ class CompanyController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+       if(Company::find($id)->delete()){
+        return redirect()->back()->with('toast_success','Company Deleted Successfully');
+       }
+       return redirect()->back()->with('toast_erro','Company Not  Found');
     }
 
     public function get_company_subcategory(Request $req)

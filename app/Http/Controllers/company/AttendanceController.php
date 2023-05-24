@@ -6,7 +6,7 @@ use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\models\Attendance;
+use App\Models\Attendance;
 use Carbon\Carbon;
 use Exception;
 
