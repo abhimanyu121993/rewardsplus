@@ -16,6 +16,8 @@
                <li><a class="lan-5" href="dashboard-02.html">Ecommerce</a></li> 
                 </ul> --}}
               </li>
+              <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title active" href="{{ route(Helper::getGuard().'.leave.index') }}"><i data-feather="airplay"></i><span >Leave</span></a>
+              </li>
         </ul>
         </div>
         <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
