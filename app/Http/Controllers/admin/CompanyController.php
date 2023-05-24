@@ -168,9 +168,21 @@ class CompanyController extends Controller
     public function company_employee()
     {
         $employees=Employee::latest()->paginate(10);
-       return view('employee.list',compact('employees'));
+        $store=Store::all();
+        $data = CompanyDetail::get(['company_name','id']);
+        return view('employee.list',compact('employees','data','store'));
     }
-
+    public function fetchstore($id)
+    {
+        $user = Company::with('store')->find($id);
+        // dd($user->store);
+        $html ='<option selected disabled hidden>Select your Store</option>';
+        foreach($user->store as $dt){
+            $html.="<option value=".$dt->id.">".$dt->name."</option>";
+        }
+        return $html;
+    }
+    
     public function fetch_old_employees()
     {
        $employees=$olddatas=DB::connection('oldmysql')->table('employee')->get();

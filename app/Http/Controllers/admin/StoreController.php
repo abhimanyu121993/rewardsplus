@@ -36,7 +36,7 @@ class StoreController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Store $store)
     {
         $request->validate([
             'store_url'=>'required',
@@ -67,7 +67,7 @@ class StoreController extends Controller
             'address'=>$request->address,
             'lat'=>$request->lat,
             'lon'=>$request->lon,
-            'gst_no_code'=>$request->gst_no,
+            'gst_no'=>$request->gst_no,
             'manager_name'=>$request->manager,
             'code'=>$request->code,
            ]);

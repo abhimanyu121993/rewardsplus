@@ -43,7 +43,7 @@ Route::group(['prefix'=>'auth','as'=>'auth.','domain'=>'company.'. env('APP_URL'
     Route::get('login',[CompanyAuth::class,'login_view'])->name('login-view');
     Route::post('login',[CompanyAuth::class,'login'])->name('login');
 });
-// Route::get('/', function () {
-//     return 'First sub domain';
-// // })->domain('admin.' . env('APP_URL'));
-// Route::get('/admin/dashboard',[DashboardController::class,'dashboard'])->name('admin.dashboard');
+Route::get('/', function () {
+    return 'First sub domain';
+ })->domain('admin.' . env('APP_URL'));
+Route::get('/admin/dashboard',[DashboardController::class,'dashboard'])->name('admin.dashboard');

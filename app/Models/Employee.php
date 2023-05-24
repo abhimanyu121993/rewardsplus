@@ -38,4 +38,8 @@ class Employee extends Authenticatable
     {
         return self::attendances()->whereDate('clock_out',Carbon::now())->first();
     }
+    public function employee()
+    {
+        return $this->hasOne(EmployeeDetail::class,'emp_id','id');
+    }
 }

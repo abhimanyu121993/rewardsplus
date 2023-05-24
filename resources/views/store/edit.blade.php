@@ -36,10 +36,11 @@
                     <input type="text" name="store_name" value="{{$store->name??''}}" id="store_name" placeholder="Ex: Store One"
                         class="form-control">
                 </div>
+                
                 <div class="form-group col-6 p-1">
                     <label for="example_input_full_name">Set Store Url
                         :<small>https://store.rewardsplus.in/store/</small></label>
-                    <input type="text" name="store_url" id="store_url" value="{{$store->store->store_url??''}}" placeholder="store-one" class="form-control "
+                    <input type="text" name="store_url" id="store_url" value="{{$store->detail->store_url??''}}" placeholder="store-one" class="form-control "
                         onblur="check_storeurl()">
                     <label>REMINDER : The URL extension which you are setting up should be unique and
                         easy
@@ -59,19 +60,19 @@
                 </div>
                 <div class="form-group col-6 p-1">
                     <label for="example_input_full_name">Address :</label>
-                    <input type="text" name="address" value="{{$store->store->address??''}}" id="address" placeholder="Address" class="form-control ">
+                    <input type="text" name="address" value="{{$store->detail->address??''}}" id="address" placeholder="Address" class="form-control ">
                 </div>
                 <div class="form-group col-6 p-1">
                     <label for="example_input_full_name">Latitude:</label>
-                    <input class="form-control" id="lat" value="{{$store->store->lat??''}}" name="lat" placeholder="Latitude" type="text">
+                    <input class="form-control" id="lat" value="{{$store->detail->lat??''}}" name="lat" placeholder="Latitude" type="text">
                 </div>
                 <div class="form-group col-6 p-1">
                     <label for="example_input_full_name">Longitude :</label>
-                    <input type="text" name="lon" id="lon" value="{{$store->store->lon??''}}" placeholder="Longitude" class="form-control">
+                    <input type="text" name="lon" id="lon" value="{{$store->detail->lon??''}}" placeholder="Longitude" class="form-control">
                 </div>
                 <div class="form-group col-6 p-1">
                     <label for="example_input_full_name">City Name :</label>
-                    <input type="text" name="city_name" value="{{$store->store->city_name??''}}" id="city_name" placeholder="City Name" class="form-control">
+                    <input type="text" name="city_name" value="{{$store->detail->city_name??''}}" id="city_name" placeholder="City Name" class="form-control">
                 </div>
                 <div class="form-group col-6 p-1">
                     <label for="example_input_full_name">Email:</label>
@@ -89,11 +90,11 @@
                 </div>
                 <div class="form-group col-6 p-1">
                     <label for="example_input_full_name">Store Code:</label>
-                    <input type="text" name="code" id="code" value="{{$store->store->code??''}}" placeholder="Code" class="form-control">
+                    <input type="text" name="code" id="code" value="{{$store->detail->code??''}}" placeholder="Code" class="form-control">
                 </div>
                 <div class="form-group col-6 p-1">
                     <label for="example_input_full_name">Store Manager:</label>
-                    <input type="text" name="manager" value="{{$store->store->manager_name??''}}" id="manager" placeholder="Manager" class="form-control">
+                    <input type="text" name="manager" value="{{$store->detail->manager_name??''}}" id="manager" placeholder="Manager" class="form-control">
                 </div>
                 <div class="form-group  col-6 p-1">
                     <label for="example_input_full_name">Photo:</label>
@@ -105,7 +106,7 @@
                 </div>
                 <div class="form-group col-6 p-1">
                     <label for="example_input_full_name">GST No:</label>
-                    <input type="text" class="form-control" id="gst_no" name="gst_no">
+                    <input type="text" class="form-control" value="{{$store->detail->gst_no??''}}" id="gst_no" name="gst_no">
                 </div>
                 <div class="form-group col-6 p-1">
                     <label for="example_input_full_name">Coupon Code:</label>
