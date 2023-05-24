@@ -32,18 +32,9 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('api')
                 ->prefix('api')
                 ->group(base_path('routes/api.php'));
-
-                // admin route
-            Route::middleware('web')->name('admin.')
-            ->group(base_path('routes/admin.php'))->domain('admin.'. env('APP_URL'));
-                 //company route
-            Route::middleware('web')->name('company.')
-                ->group(base_path('routes/company.php'))->domain('company.'. env('APP_URL'));
-     
-            // Employee route
-            Route::middleware('web')->name('employee.')->prefix('employee')
-            ->group(base_path('routes/employee.php'))->domain('employee.'. env('APP_URL'));
-
+            Route::middleware('web')->as('admin.')->domain('admin.'.env('APP_URL'))->group(base_path('routes/admin.php'));
+            Route::middleware('web')->as('company.')->domain('company.'.env('APP_URL'))->group(base_path('routes/company.php'));
+            Route::middleware('web')->as('employee.')->domain('employee.'.env('APP_URL'))->group(base_path('routes/employee.php'));
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
 

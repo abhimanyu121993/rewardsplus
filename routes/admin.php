@@ -1,16 +1,16 @@
 <?php
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\admin\RoleController;
+
 use App\Http\Controllers\admin\AuthController;
+use App\Http\Controllers\admin\CompanyController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\PermissionController;
+use App\Http\Controllers\admin\RoleController;
 use App\Http\Controllers\admin\RolePermissionController;
-use App\Http\Controllers\admin\CompanyController;
 use App\Http\Controllers\admin\StoreController;
-// Auth Route
+use Illuminate\Support\Facades\Route;
 
-// logout route
 Route::get('auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
+Route::get('dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
 Route::group(['prefix' => 'role-permission', 'as' => 'role-permission.'], function () {
     Route::resource('role', RoleController::class)->name('role', '');
     Route::resource('permission', PermissionController::class)->name('permission', '');
@@ -21,8 +21,6 @@ Route::group(['prefix' => 'role-permission', 'as' => 'role-permission.'], functi
     Route::get('/isactive/{id}', [RoleController::class, 'is_active'])->name('active-role');
     Route::get('customer-has-permission', [RoleController::class, 'fetch_role']);
 });
-
-Route::get('dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
 Route::post('company/subcategory',[CompanyController::class,'get_company_subcategory'])->name('company.subcategory');
 Route::get('company/old-companies',[CompanyController::class,'fetch_old_companies'])->name('company.fetch-old-companies');
 Route::get('company/employee',[CompanyController::class,'company_employee'])->name('company.employee');

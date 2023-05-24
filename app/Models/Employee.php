@@ -38,4 +38,9 @@ class Employee extends Authenticatable
     {
         return self::attendances()->whereDate('clock_out',Carbon::now())->first();
     }
+
+    public function leaves()
+    {
+       return $this->morphMany(Leave::class,'leaveable');
+    }
 }

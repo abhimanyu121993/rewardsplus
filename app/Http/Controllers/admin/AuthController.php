@@ -32,6 +32,6 @@ class AuthController extends Controller
     public function logout()
     {
         Auth::guard(PermissionName::$admin)->logout();
-        return redirect()->route('auth.login-view')->with('toast_success', 'Logged Out');
+        return redirect()->route(PermissionName::$admin.'.auth.login-view')->with('toast_success', 'Logged Out');
     }
 }

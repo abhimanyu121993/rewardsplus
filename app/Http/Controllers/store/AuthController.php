@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\store;
 
 use App\Http\Controllers\Controller;
+use App\Models\PermissionName;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -30,6 +32,6 @@ class AuthController extends Controller
     public function logout()
     {
         Auth::guard(PermissionName::$employee)->logout();
-        return redirect()->route('auth.login-view')->with('toast_success', 'Logged Out');
+        return redirect()->route(PermissionName::$employee.'.auth.login-view')->with('toast_success', 'Logged Out');
     }
 }

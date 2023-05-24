@@ -15,7 +15,7 @@
           </ol>
           <div class="row ">
             <div class="col-4">
-            <form action="{{route('admin.dashboard')}}" method="post">
+            {{-- <form action="{{route('admin.dashboard')}}" method="post"> --}}
               @csrf
             <select class="form-select" onchange="this.form.submit()" name="filter">
               <option value="1" @selected($filter==1)>7 days</option>
