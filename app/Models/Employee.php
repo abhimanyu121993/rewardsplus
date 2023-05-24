@@ -42,4 +42,9 @@ class Employee extends Authenticatable
     {
         return $this->hasOne(EmployeeDetail::class,'emp_id','id');
     }
+
+    public function leaves()
+    {
+       return $this->morphMany(Leave::class,'leaveable');
+    }
 }

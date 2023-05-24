@@ -10,11 +10,11 @@
         <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
         <div id="sidebar-menu">
           <ul class="sidebar-links" id="simple-bar">
-            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title active" href="{{ route(Helper::getGuard().'.attendance.index') }}"><i data-feather="airplay"></i><span >Attendance</span></a>
-                {{-- <ul class="sidebar-submenu" style="display:block">
-                  <li><a href="#">Attendance</a></li>
-               <li><a class="lan-5" href="dashboard-02.html">Ecommerce</a></li> 
-                </ul> --}}
+            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title active" href="javascript::void(0)"><i data-feather="airplay"></i><span >Employee</span></a>
+                <ul class="sidebar-submenu" style="display:block">
+                  <li><a href="{{ route(Helper::getGuard().'.attendance.index') }}">Attendance</a></li>
+               <li><a class="" href="{{ route(Helper::getGuard().'.employee.leave.application') }}">Leave Application</a></li> 
+                </ul>
               </li>
         </ul>
         </div>
