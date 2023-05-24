@@ -16,4 +16,9 @@ class Store extends Authenticatable
     {
        return $this->belongsTo(Company::class,'company_id');
     }
+    public function detail()
+    {
+       return $this->hasOne(StoreDetail::class,'store_id','id');
+    }
+
 }

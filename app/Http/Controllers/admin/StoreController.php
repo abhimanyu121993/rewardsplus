@@ -10,6 +10,7 @@ use App\Helpers\Helper;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Store;
 use App\Models\Company;
+use App\Models\CompanyDetail;
 use App\Models\StoreDetail;
 use Session;
 class StoreController extends Controller
@@ -20,7 +21,8 @@ class StoreController extends Controller
     public function index()
     {
         $stores=Store::latest()->paginate(10);
-        return view('store.list',compact('stores'));
+        $company=CompanyDetail::all();
+        return view('store.list',compact('stores','company'));
     }
 
     /**
@@ -34,9 +36,42 @@ class StoreController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Store $store)
     {
-        //
+        $request->validate([
+            'store_url'=>'required',
+            'address'=>'required',
+            'city_name'=>'required',
+            'lat'=>'required',
+            'lon'=>'required',
+            'email'=>'required',
+            'contact'=>'required',
+            'code'=>'required',
+            'manager'=>'required',
+           ]);
+           $user = Store::firstOrCreate([
+            'name'=>$request->store_name,
+            'company_id'=>$request->company_name,
+            'email'=>$request->email,
+            'mobile'=>$request->contact,
+            'password'=>Hash::make($request->password),
+           ]);
+           StoreDetail::firstOrCreate([
+            'store_id'=>$user->id,
+            'store_url'=>$request->store_url,
+            'country_id'=>$request->country_id,
+            'state_id'=>$request->state_id,
+            'city_id'=>$request->city_id,
+            'city_name'=>$request->city_name,
+            'pincode'=>$request->pincode,
+            'address'=>$request->address,
+            'lat'=>$request->lat,
+            'lon'=>$request->lon,
+            'gst_no'=>$request->gst_no,
+            'manager_name'=>$request->manager,
+            'code'=>$request->code,
+           ]);
+        return redirect()->back()->with('toast_success','Store Register Successfully');
     }
 
     /**
@@ -44,7 +79,7 @@ class StoreController extends Controller
      */
     public function show(string $id)
     {
-        //
+        dd($id);
     }
 
     /**
@@ -52,7 +87,9 @@ class StoreController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $store=Store::find($id);
+        $company=CompanyDetail::all();
+        return view('store.edit',compact('store','company'));
     }
 
     /**
@@ -68,7 +105,8 @@ class StoreController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Store::find($id)->delete();
+        return redirect()->back()->with('toast_success','Store Deleted Successfully');
     }
     public function fetch_old_stores()
     {

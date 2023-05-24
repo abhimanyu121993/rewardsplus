@@ -17,6 +17,7 @@ use App\Models\State;
 use App\Models\TimeZone;
 use Exception;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -28,6 +29,15 @@ use Spatie\Permission\Models\Role;
 class Helper
 {
 
+    public static function Image($path,UploadedFile $file,$pre=null)
+    {
+        if($file->getSize()!=null){
+            $filename=($pre?$pre.'-':'').time().'-'.rand(00,99999).'.'.$file->extension();
+            $path=$file->storeAs($path,$filename,'public');
+            return $path;
+    }
+    }
+        
     public static function getCountries()
     {
         return $countries = Country::get();

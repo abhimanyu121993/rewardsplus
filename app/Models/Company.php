@@ -20,4 +20,8 @@ class Company extends Authenticatable
         return $this->morphMany(Employee::class,'employeeable');
 
     }
+    public function store()
+    {
+        return $this->hasMany(Store::class,'company_id');
+    }
 }
