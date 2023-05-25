@@ -8,7 +8,7 @@ use App\Http\Controllers\admin\RoleController;
 use App\Http\Controllers\admin\RolePermissionController;
 use App\Http\Controllers\admin\StoreController;
 use App\Http\Controllers\company\EmployeeController;
-
+use App\Models\EmployeeDetail;
 // Auth Route
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +32,7 @@ Route::get('company/old-employees',[CompanyController::class,'fetch_old_employee
 Route::resource('company',CompanyController::class)->name('company','');
 Route::get('store/old-stores',[StoreController::class,'fetch_old_stores'])->name('store.fetch-old-stores');
 Route::get('api/fetch-company/{id?}',[CompanyController::class,'fetchstore']);
+Route::get('api/fetch-store/{id?}',[EmployeeController::class,'fetchcompany']);
 Route::resource('store',StoreController::class)->name('store','');
 Route::resource('employee',EmployeeController::class)->name('employee','');
 

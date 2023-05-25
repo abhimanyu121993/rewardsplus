@@ -37,25 +37,17 @@ class EmployeeController extends Controller
      */
     public function store(Request $req)
     {
-        $req->validate([
-            'name'=>'required|string|max:255',
-            'email'=>'required|unique:employees,email|email',
-            'contact'=>'required|unique:employees,mobile',
-            'password'=>'required|min:8',
-            'store_id'=>'required',
-            'emp_type'=>'required',
-            'emp_code'=>'required',
-            'aadhar_no'=>'required',
-            'pan_no'=>'required',
-            'account_no'=>'required',
-            'ifsc_code'=>'required',
-            'photo'=>'required',
-            'address_proof'=>'required',
-            'aadhar'=>'required',
-            'pancard'=>'required',
-            'address'=>'required',
-          ]);
+      $req->validate([
+        'pan_no' => 'required|digits:10',
+        'account_no' => 'required|digits:10',
+        'ifsc_code' => 'required|alpha_num|size:10',
+        'aadhar_no' => 'required|digits:10',
+        'contact' => 'required|digits:10',
+    ]);    
           $data=Auth::guard(Helper::getGuard())->user()->employees()->updateOrCreate([
+            'email'=>$req->email,
+            'employeeable_id'=>$req->company_id,
+          ],[
             'name'=>$req->name,
             'email'=>$req->email,
             'mobile'=>$req->contact,
@@ -67,6 +59,10 @@ class EmployeeController extends Controller
             'uniqid'=>Str::orderedUuid(),
           ]);
           $d=EmployeeDetail::updateOrCreate([
+            'adhar_number'=>$req->aadhar_no,
+            'pan_number'=>$req->pan_no,
+            'account_number'=>$req->account_no,
+          ],[
             'emp_id'=>$data->id,
             'emp_type'=>$req->emp_type,
             'emp_code'=>$req->emp_code,
@@ -101,10 +97,19 @@ class EmployeeController extends Controller
     public function edit(string $id)
     {
         $store=Employee::find($id);
-        $data=Company::all();
+        $data = CompanyDetail::get(['company_name','id']);
         return view('employee.edit',compact('store','data'));
     }
-
+    public function fetchcompany($id)
+    {
+        $user = Company::with('store')->find($id);
+        //dd($user->store);
+        $html ='<option selected disabled hidden>Select your Store</option>';
+        foreach($user->store as $dt){
+            $html.="<option value=".$dt->id.">".$dt->name."</option>";
+        }
+        return $html;
+    }
     /**
      * Update the specified resource in storage.
      */
