@@ -37,42 +37,48 @@ class StoreController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request, Store $store)
-    {
-        $request->validate([
-            'store_url'=>'required',
-            'address'=>'required',
-            'city_name'=>'required',
-            'lat'=>'required',
-            'lon'=>'required',
-            'email'=>'required',
-            'contact'=>'required',
-            'code'=>'required',
-            'manager'=>'required',
-           ]);
-           $user = Store::firstOrCreate([
-            'name'=>$request->store_name,
-            'company_id'=>$request->company_name,
-            'email'=>$request->email,
-            'mobile'=>$request->contact,
-            'password'=>Hash::make($request->password),
-           ]);
-           StoreDetail::firstOrCreate([
-            'store_id'=>$user->id,
-            'store_url'=>$request->store_url,
-            'country_id'=>$request->country_id,
-            'state_id'=>$request->state_id,
-            'city_id'=>$request->city_id,
-            'city_name'=>$request->city_name,
-            'pincode'=>$request->pincode,
-            'address'=>$request->address,
-            'lat'=>$request->lat,
-            'lon'=>$request->lon,
-            'gst_no'=>$request->gst_no,
-            'manager_name'=>$request->manager,
-            'code'=>$request->code,
-           ]);
-        return redirect()->back()->with('toast_success','Store Register Successfully');
-    }
+{
+    $request->validate([
+        
+    ]);
+
+    $user = Store::updateOrCreate(
+        [
+            'email' => $request->email,
+        ],
+        [
+            'name' => $request->store_name,
+            'company_id' => $request->company_name,
+            'email' => $request->email,
+            'mobile' => $request->contact,
+            'password' => Hash::make($request->password),
+        ]
+    );
+
+    StoreDetail::updateOrCreate(
+        [
+            'store_url' => $request->store_url,
+        ],
+        [
+            'store_id' => $user->id,
+            'store_url' => $request->store_url,
+            'country_id' => $request->country_id,
+            'state_id' => $request->state_id,
+            'city_id' => $request->city_id,
+            'city_name' => $request->city_name,
+            'pincode' => $request->pincode,
+            'address' => $request->address,
+            'lat' => $request->lat,
+            'lon' => $request->lon,
+            'gst_no' => $request->gst_no,
+            'manager_name' => $request->manager,
+            'code' => $request->code,
+        ]
+    );
+
+    return redirect()->back()->with('toast_success', 'Store Registered Successfully');
+}
+
 
     /**
      * Display the specified resource.

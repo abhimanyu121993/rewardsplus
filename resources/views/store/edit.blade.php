@@ -127,7 +127,7 @@
                         <select class="form-control" id="is_verified" name="company_name">
                             <option>Select Company Name</option>
                             @foreach($company as $company)
-                            <option value="{{$company->company_id}}">{{$company->company_name}}</option>
+                            <option value="{{$company->company_id}}" {{isset($store)? ($store->company_id == $company->id ? 'selected' :''):''}}>{{$company->company_name}}</option>
                             @endforeach
                         </select>
                     </div>
