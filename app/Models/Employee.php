@@ -8,9 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
+
 class Employee extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
     protected $guarded=[];
 
     public function company()
@@ -30,9 +32,9 @@ class Employee extends Authenticatable
     {
         return $this->hasMany(Attendance::class,'employee_id','id');
     }
-    public function getTodayClockInAttribute()
+    public function getTodayAttendanceAttribute()
     {
-        return self::attendances()->whereDate('clock_in',Carbon::now())->first();
+        return self::attendances()->whereDate('date',Carbon::now())->first();
     }
     public function getTodayClockOutAttribute()
     {

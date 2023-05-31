@@ -26,11 +26,10 @@
     <div class="card-body">
         <div class="row d-flex justify-content-center">
             <div class="col-4">
-                
-                <button  class="btn btn-square btn-primary"  onclick="clock_in()" @disabled($today)><i class="fa fa-clock-o"></i> Clock-in ( {{ Carbon\Carbon::now()->format('h:i a') }} )</button>
+                <button  class="btn btn-square btn-primary"  onclick="clock_in()" @isset($today)@disabled(($today->status=='present'||$today->status=='half-day')?true:false)@endisset><i class="fa fa-clock-o"></i> {{ isset($today)?'Clocked-In':'Clock-In' }}  ({{ isset($today)?$today->clock_in:Carbon\Carbon::now()->format('h:i a') }} )</button>
             </div>
             <div class="col-4">
-                <button class="btn btn-square btn-danger" onclick="clock_out()" @disabled($today?false:true)> <i class="fa fa-clock-o"></i> Clock-out ( {{ Carbon\Carbon::now()->format('h:i a') }} )</button>
+                <button class="btn btn-square btn-danger" onclick="clock_out()"  @disabled(isset($today->clock_in)?false:true)> <i class="fa fa-clock-o"></i> Clock-out ( {{ Carbon\Carbon::now()->format('h:i a') }} )</button>
             </div>
 
         </div>
@@ -52,9 +51,9 @@
                 @foreach($attendances as $attendance)
                 <tr>
                     <td>{{ (($attendances->currentPage()-1)*10)+($loop->index+1) }}</td>
-                    <td>{{ $attendance->created_at->format('d-M-Y') }}</td>
-                    <td>{{ $attendance->clock_in->format('d-m-Y h:i a') }}</td>
-                    <td>{{ $attendance->clock_out?$attendance->clock_out->format('d-m-Y h:i a'):'' }}</td>
+                    <td>{{ $attendance->date }}</td>
+                    <td>{{ $attendance->clock_in??'' }}</td>
+                    <td>{{ $attendance->clock_out?$attendance->clock_out:'' }}</td>
                 </tr>
                 @endforeach
             </tbody>

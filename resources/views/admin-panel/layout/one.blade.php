@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RewardsPlus :: @yield('title')</title>
     @include('admin-panel.include.head')
+    @yield('link-area')
   </head>
   <body>
     <!-- tap on top starts-->

@@ -58,7 +58,7 @@
                         <td>{{ $company->company_detail->company_name??'' }}</td>
                         <td>{{ $company->email }}</td>
                         <td class="d-flex gap-2">
-                            <button class="btn btn-outline-info-2x btn-square edit-company-btn" data-id="{{ $company->id  }}"><i class="fa fa-pencil-square-o"></i></a>
+                            <button class="btn btn-outline-info-2x btn-square edit-company-btn" data-id="{{ $company->id  }}"><i class="fa fa-pencil-square-o"></i></button>
                             <form action="{{ route('admin.company.destroy',$company->id) }}" method="post">
                                 @csrf
                                 @method('DELETE')

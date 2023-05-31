@@ -1,10 +1,5 @@
 @extends('admin-panel.layout.one')
 @section('title', 'Company-attendance')
-@section('link-area')
-{{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet">
- --}}
-<link href="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
-@endsection
 @section('bread-crumb')
     <div class="container-fluid">
         <div class="page-title">
@@ -24,48 +19,19 @@
     </div>
 @endsection
 @section('content-area')
-{{-- <div class="card">
-    <div class="card-body">
-        <form action="{{ route(Helper::getGuard().'.attendance.index') }}">
-        <div class="row">
-            <div class="col-sm-3 form-group">
-                <label for="from"class="form-label">From</label>
-                <input type="date" class="form-control" name="from" id="from">
-            </div>
-            <div class="col-sm-3 form-group">
-                <label for="to"class="form-label">To</label>
-                <input type="date" class="form-control" name="to" id="to">
-            </div>
-            <div class="col-sm-3 form-group">
-                <label for="status"class="form-label">Status</label>
-                <select name="status" id="" class="form-select">
-                    <option value="" disabled selected hidden>Choose Status</option>
-                        <option value="absent" >Absent</option>
-                        <option value="paid-leave" >Paid Leave</option>
-                        <option value="unpaid-leave" >Unpaid Leave</option>
-                        <option value="half-day">half-day</option>
-                    </select>
-                
-            </div>
-            <div class="col-sm-3 mt-4">
-                <button class="btn btn-primary" id="search_btn"><i class="fa fa-search"></i> Search</button>
-            </div>
-        </div>
-    </form>
-    </div>
-</div> --}}
+
 <div class="card">
     <div class="card-header pb-0">
         <div class="row">
             <div class="col-md-6">
                 <h4>Attendace on  <span class="text-danger">{{ $date }}</span> </h4>
-            </div>  
-            <div class="col-md-4">
-                <a href="{{ route(Helper::getGuard().'.attendance.bulk-attendance-get')  }}" class="btn btn-primary">Export</a>
-            </div>
+            </div> 
+            <div class="col-md-6 pull-right">
+                <a href="{{ route(Helper::getGuard().'.attendance.bulk-attendance-get') }}" class="btn btn-primary btn-sm">Export</a>
+            </div> 
         </div>
     </div>
-    <form action="{{ route('company.attendance.clock-in') }}" method="post">
+    <form action="{{ route(Helper::getGuard().'.attendance.bulk') }}" method="post">
         @csrf
     <div class="card-body table-responsive">
         <table class="table table-bordered data-table">
@@ -85,10 +51,10 @@
                     <td>{{ $loop->index+1 }}</td>
                     <td>{{ $employee->name }}</td>
                     <td>{{ $employee->uniqid }} </td>
-                    <td> <input type="time" name="{{ $employee->id }}[clock_in]" id="" class="form-control" value="{{ $employee->today_attendance?$employee->today_attendance->clock_in:'' }}"> </td>
-                    <td> <input type="time" name="{{ $employee->id }}[clock_out]" id="" class="form-control" value="{{ $employee->today_attendance?$employee->today_attendance->clock_out:'' }}"> </td>
+                    <td> <input type="time" name="{{ $employee->id }}[clock_in]" id="" class="form-control" value="{{ $employee->today_attendance?$employee->today_attendance->clock_in:'' }}" @if(isset($employee->today_attendance) and $employee->today_attendance->clock_in!=null) @if(Auth::guard(Helper::getGuard())->user()->hasPermissionTo('Bulk Attendance_edit','employee')) @else readonly @endif @endif> </td>
+                    <td> <input type="time" name="{{ $employee->id }}[clock_out]" id="" class="form-control" value="{{ $employee->today_attendance?$employee->today_attendance->clock_out:'' }}" @if(isset($employee->today_attendance) and $employee->today_attendance->clock_out!=null) @if(Auth::guard(Helper::getGuard())->user()->hasPermissionTo('Bulk Attendance_edit','employee')) @else readonly @endif @endif> </td>
                     <td>
-                       <select name="{{ $employee->id }}[status]" id="" class="form-select">
+                       <select name="{{ $employee->id }}[status]" id="" class="form-select" @if(isset($employee->today_attendance) and $employee->today_attendance->status!=null) @if(Auth::guard(Helper::getGuard())->user()->hasPermissionTo('Bulk Attendance_edit','employee')) @else disabled @endif @endif>
 
                         <option value="" disabled selected hidden>Choose Status</option>
                             <option value="present" @isset($employee->today_attendance)@selected($employee->today_attendance->status=='present')@endisset>Present</option>
@@ -123,14 +89,12 @@
       var table = $('.data-table').DataTable({
           processing: true,
           serverSide: true,
-          ajax: "{{ route('company.attendance.index') }}",
+          ajax: "{{ route(Helper::getGuard().'.attendance.bulk-attendance-get') }}",
           columns: [
               {data: 'id', name: 'id'},
               {data: 'name', name: 'name'},
               {data: 'uniqid', name: 'uniqid'},
               {data: 'clock_in', name: 'clock_in'},
-              {data: 'clock_out', name: 'clock_out'},
-              {data: 'status', name: 'status'},
           ],
       });
               

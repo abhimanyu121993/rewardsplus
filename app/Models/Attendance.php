@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Attendance extends Model
 {
     use HasFactory;
-    protected $casts=[
-        'clock_in'=>'datetime',
-        'clock_out'=>'datetime'
-    ];
     protected $guarded=[];
+
+    public function employee()
+    {
+       return $this->belongsTo(Employee::class,'employee_id');
+    }
 }

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Models\Role;
 
 class Company extends Authenticatable
 {
@@ -23,5 +24,13 @@ class Company extends Authenticatable
     public function store()
     {
         return $this->hasMany(Store::class,'company_id');
+    }
+    public function rolecreated()
+    {
+        return $this->morphMany(Role::class,'createable');
+    }
+    public function employees()
+    {
+        return $this->morphMany(Employee::class,'employeeable');
     }
 }

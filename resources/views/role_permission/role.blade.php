@@ -65,7 +65,8 @@
                             data-bs-original-title="" title=""></button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('admin.role-permission.role.store') }}" method="post"
+                        <form action="{{ route(Helper::getGuard().
+                        '.role-permission.role.store') }}" method="post"
                             class="needs-validation" novalidate="">
                             @csrf
                             <label class="form-label" for="role_name">Role Name</label>

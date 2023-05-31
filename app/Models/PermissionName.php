@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Models\Permission;
 
 class PermissionName extends Model
 {
@@ -13,4 +14,11 @@ class PermissionName extends Model
     public static $store = 'store';
     public static $employee = 'employee';
     public static $sanctum='sanctum';
+
+    protected $guarded=[];
+
+    public function permissions()
+    {
+       return $this->hasMany(Permission::class,'permission_name_id');
+    }
 }

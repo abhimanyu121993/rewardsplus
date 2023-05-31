@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('employee_id')->unsigned();
-            $table->dateTime('clock_in');
-            $table->dateTime('clock_out')->nullable();
+            $table->enum('status',['present','absent','paid-leave','unpaid-leave','half-day','na']);
+            $table->date('date');
+            $table->time('clock_in')->nullable();
+            $table->time('clock_out')->nullable();
             $table->foreign('employee_id')->references('id')->on('employees')->ascadeOnDelete();
             $table->timestamps();
         });

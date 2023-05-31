@@ -1,5 +1,10 @@
 @extends('admin-panel.layout.one')
 @section('title', 'Company')
+@section('link-area')
+{{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet">
+ --}}
+<link href="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+@endsection
 @section('bread-crumb')
 <div class="container-fluid">
     <div class="page-title">
@@ -29,8 +34,14 @@
 
     <div class="col-sm-3">
         <a class="btn btn-warning"
-            href="@if(Route::has(Helper::getGuard().'.company.fetch-old-employees')){{ route(Helper::getGuard().'.company.fetch-old-employees') }}@endif"
+            href="@if(Route::has(Helper::getGuard().'.company.fetch-old-emp')){{ route(Helper::getGuard().'.company.fetch-old-emp') }}@endif"
             title="Add Employee"><i class="fa fa-rotate-right"></i> Fetch Old data
+        </a>
+    </div>
+    <div class="col-sm-3">
+        <a class="btn btn-warning"
+            href="@if(Route::has(Helper::getGuard().'.fetch-sales-employee')){{ route(Helper::getGuard().'.fetch-sales-employee') }}@endif"
+            title="Add Employee"><i class="fa fa-rotate-right"></i> Fetch Old Sales Employes
         </a>
     </div>
 </div>
@@ -41,50 +52,70 @@
         <h5>Employee List</h5>
     </div>
     <div class="card-body">
-        <div class="row">
-            <div class="col table-responsive">
-                <table class="table table-bordered ">
-                    <thead class="bg-primary">
+        <div class="row pb-1">
+            <div class="table-responsive">
+                <table class="table table-bordered data-table " >
+                    <thead class="bg-primary" >
                         <tr>
                             <th>Sr No</th>
                             <th>Name</th>
                             <th>UUID</th>
+                            <th>Designation</th>
                             <th>Email</th>
                             <th>Company Name</th>
                             <th>Store Name</th>
+                            <th>Store Code</th>
                             <th>Contact No</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($employees as $employee)
+                        {{-- @foreach($employees as $employee)
                         <tr>
-                            <td>{{ ($employees->currentPage()*10)+($loop->index + 1) }}</td>
+                            <td>{{ (($employees->currentPage()-1)*10)+($loop->index + 1) }}</td>
                             <td>{{ $employee->name??'' }}</td>
                             <td>{{ $employee->uniqid??'' }}</td>
+                            <td> 
+                                @foreach($employee->getRoleNames() as $rolename) 
+                                {{ $loop->first ? '': ', ' }}
+                                {{ Helper::roleName($rolename) }}
+                                @endforeach    
+                            </td>
+                            <td>{{ $employee->email }}</td>
                             <td>{{ $employee->company->name??'' }}</td>
                             <td>{{ $employee->store->name??'' }}</td>
-                            <td>{{ $employee->email??'' }}</td>
+                            <td>{{ $employee->store->detail->code??'' }}</td>
                             <td>{{ $employee->mobile??'' }}</td>
-                            <td>
-                                <div class="d-flex">
+                            <td> --}}
+                                {{-- <div class="d-flex">
                                 <a class="btn btn-primary employee_route" href="#" data-url="{{route('admin.employee.edit',$employee->id)}}" data-bs-toggle="modal" data-bs-target="#updateemployee">Edit</a>
                                 <form action="{{ route('admin.employee.destroy',$employee->id) }}" method="POST">
                                     @method('DELETE')
                                     @csrf
                                     <button class="btn btn-primary">Delete</button>
                                 </form>
-                                </div>
+                                </div> --}}
+                                {{-- <div class="dropdown">
+                                    <a class="btn btn-info dropdown-toggle btn-square" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                     action
+                                    </a>
+                                  
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                      <li><a class="dropdown-item assign-role" href="#" data-employee_id="{{ $employee->id }}"><i class="fa fa-rocket text-warning"></i> Assign Role</a></li>
+                                      <li><a class="dropdown-item" href="#"><i class="fa fa-pencil-square-o text-primary"></i> Edit</a></li>
+                                      <li><a class="dropdown-item" href="#"><i class="fa fa-trash-o text-danger"></i> Delete</a></li>
+                                    </ul>
+                                  </div>
                             </td>
                         </tr>
-                        @endforeach
+                        @endforeach --}}
                     </tbody>
                 </table>
             </div>
 
         </div>
         <div class="row mt-2">
-            {{ $employees->links("pagination::bootstrap-5") }}
+            {{-- {{ $employees->links("pagination::bootstrap-5") }} --}}
         </div>
     </div>
 </div>
@@ -326,6 +357,30 @@
         </div>
     </div>
 </div>
+
+{{-- Assign Permission Modal --}}
+
+<div class="modal fade" id="assign-role" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Assign Role To Employee</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="{{ route(Helper::getGuard().'.role-permission.assign-roles') }}" method="post">
+            @csrf
+            <div class="modal-body" id="give-role">
+            
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Give Role</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
 @endsection
 @section('script-area')
 <script>
@@ -357,5 +412,54 @@ $(document).ready(function() {
         });
     });
 });
+
+// Assign Permisison
+$(document).on('click','.assign-role',function(){
+    var id = $(this).data('employee_id');
+    $.ajax({
+        'url':"{{ url('/employee') }}/"+id,
+        'method':'get',
+        'success':function(data){
+            $('#give-role').html(data);
+            $('#assign-role').modal('show');
+        }
+    });
+});
+
+   
+
 </script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        
+      var table = $('.data-table').DataTable({
+          processing: true,
+          serverSide: true,
+          ajax: "{{ route('company.employee.index') }}",
+          columns: [
+              {data: 'id', name: 'id'},
+              {data: 'name', name: 'name'},
+              {data: 'uniqid', name: 'uniqid'},
+              {data: 'designation', name: 'designation', orderable: false, searchable: false},
+              {data: 'email', name: 'email'},
+              {data: 'company', name: 'company'},
+              {data: 'store', name: 'store'},
+              {data: 'store_code', name: 'store_code'},
+              {data: 'mobile', name: 'mobile'},
+              {data: 'action', name: 'action', orderable: false, searchable: false},
+          ],
+      });
+              
+    });
+    // Reinitialize Bootstrap dropdowns
+     $(document).on('click', '.dropdown-toggle', function() {
+        $(this).dropdown('toggle');
+    });
+  </script>
 @endsection
