@@ -109,6 +109,7 @@ class AttendanceController extends Controller
     }
     public function company_bulk_attendance_get(Request $req)
     {
+        $filter=[];
         $company=isset($req->company)?$req->company:$req->company_id;
         $q=Attendance::query();
         if($req->submit=='search' and isset($req->from) and isset($req->to)){
