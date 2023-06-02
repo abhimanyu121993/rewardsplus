@@ -29,10 +29,10 @@ Route::group(['prefix' => 'role-permission', 'as' => 'role-permission.'], functi
 Route::get('dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
 
 Route::group(['prefix'=>'company','as'=>'company.'],function(){
-Route::post('company/subcategory',[CompanyController::class,'get_company_subcategory'])->name('subcategory');
-Route::get('company/old-companies',[CompanyController::class,'fetch_old_companies'])->name('fetch-old-companies');
-Route::get('company/employee',[CompanyController::class,'company_employee'])->name('employee');
-Route::get('company/old-employees',[CompanyController::class,'fetch_old_employees'])->name('fetch-old-employees');
+Route::post('subcategory',[CompanyController::class,'get_company_subcategory'])->name('subcategory');
+Route::get('old-companies',[CompanyController::class,'fetch_old_companies'])->name('fetch-old-companies');
+Route::get('employee',[CompanyController::class,'company_employee'])->name('employee');
+Route::get('old-employees',[CompanyController::class,'fetch_old_employees'])->name('fetch-old-employees');
 Route::get('company-employee-attendance',[AttendanceController::class,'company_employee_attendance'])->name('employee-attendance');
 Route::get('company-bulk-attendance-get',[AttendanceController::class,'company_bulk_attendance_get'])->name('bulk-attendance-get');
 Route::post('company-bulk-attendance',[AttendanceController::class,'company_bulk_attendance'])->name('bulk-attendance');
