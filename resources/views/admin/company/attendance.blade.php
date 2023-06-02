@@ -52,6 +52,7 @@
             <thead class="bg-primary">
                 <tr>
                     <th>Sr.No</th>
+                    <th>Store</th>
                     <th>Name</th>
                     <th>UUID</th>
                     <th>Clock-In</th>
@@ -112,6 +113,7 @@ function fetchemployee(p){
           ajax: "{{ route(Helper::getGuard().'.company.employee-attendance') }}"+'?company='+a,
           columns: [
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+              {data: 'store', name: 'store'},
               {data: 'name', name: 'name'},
               {data: 'uniqid', name: 'uniqid'},
               {data: 'clock_in', name: 'clock_in'},

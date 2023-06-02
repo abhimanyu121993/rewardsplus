@@ -77,7 +77,10 @@ class AttendanceController extends Controller
                          $dt .='">';
                          return $dt;
                      })
-                ->rawColumns(['clock_in','clock_out','status','sale'])->make(true);
+                     ->editColumn('store',function($employee){
+                        return $employee->store->detail->code;
+                     })
+                ->rawColumns(['clock_in','clock_out','status','sale','store'])->make(true);
         }
        return view('admin.company.attendance',compact('date','companies'));
     }
