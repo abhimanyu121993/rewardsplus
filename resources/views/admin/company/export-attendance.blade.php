@@ -23,7 +23,7 @@
     <div class="card-body">
         <form action="{{ route(Helper::getGuard().'.company.bulk-attendance-get') }}">
             @csrf
-            <input type="hidden" name="company_id" value="{{ Request::get('company') }}">
+            <input type="hidden" name="company" value="{{ Request::get('company') }}">
             <div class="row">
                 <div class="col-sm-3 form-group">
                     <label for="from"class="form-label">From</label>
