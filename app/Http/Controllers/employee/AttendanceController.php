@@ -182,10 +182,6 @@ class AttendanceController extends Controller
                          
                          return $dt;
                      })
-                ->editColumn('today_sale',function($employee){
-                    $dt='<input type="number" step="0.01" name="'.$employee->id.'[today_sale]" id="" class="form-control" value="'.$employee->today_attendance->today_sale.'">';
-                    return $dt;
-                })
                 ->editColumn('sale',function($employee){
                     $dt='<input type="number" step="0.1" name="'.$employee->id.'[today_sale]" id="" class="form-control" value="';
                     $dt .=$employee->today_attendance?$employee->today_attendance->today_sale:'0.00';

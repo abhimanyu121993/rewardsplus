@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\AttendanceController;
 use App\Http\Controllers\admin\AuthController;
 use App\Http\Controllers\admin\CompanyController;
 use App\Http\Controllers\admin\DashboardController;
@@ -7,7 +8,7 @@ use App\Http\Controllers\admin\PermissionController;
 use App\Http\Controllers\admin\RoleController;
 use App\Http\Controllers\admin\RolePermissionController;
 use App\Http\Controllers\admin\StoreController;
-use App\Http\Controllers\company\EmployeeController;
+use App\Http\Controllers\admin\EmployeeController;
 use App\Models\EmployeeDetail;
 // Auth Route
 use Illuminate\Support\Facades\Route;
@@ -23,12 +24,19 @@ Route::group(['prefix' => 'role-permission', 'as' => 'role-permission.'], functi
     Route::get('fetch-role', [RoleController::class, 'fetch_role'])->name('fetch-role');
     Route::get('/isactive/{id}', [RoleController::class, 'is_active'])->name('active-role');
     Route::get('customer-has-permission', [RoleController::class, 'fetch_role']);
+    Route::post('assign-roles',[RolePermissionController::class, 'assign_permission'])->name('assign-roles');
 });
 Route::get('dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
-Route::post('company/subcategory',[CompanyController::class,'get_company_subcategory'])->name('company.subcategory');
-Route::get('company/old-companies',[CompanyController::class,'fetch_old_companies'])->name('company.fetch-old-companies');
-Route::get('company/employee',[CompanyController::class,'company_employee'])->name('company.employee');
-Route::get('company/old-employees',[CompanyController::class,'fetch_old_employees'])->name('company.fetch-old-employees');
+
+Route::group(['prefix'=>'company','as'=>'company.'],function(){
+Route::post('company/subcategory',[CompanyController::class,'get_company_subcategory'])->name('subcategory');
+Route::get('company/old-companies',[CompanyController::class,'fetch_old_companies'])->name('fetch-old-companies');
+Route::get('company/employee',[CompanyController::class,'company_employee'])->name('employee');
+Route::get('company/old-employees',[CompanyController::class,'fetch_old_employees'])->name('fetch-old-employees');
+Route::get('company-employee-attendance',[AttendanceController::class,'company_employee_attendance'])->name('employee-attendance');
+Route::get('company-bulk-attendance-get',[AttendanceController::class,'company_bulk_attendance_get'])->name('bulk-attendance-get');
+Route::post('company-bulk-attendance',[AttendanceController::class,'company_bulk_attendance'])->name('bulk-attendance');
+});
 Route::resource('company',CompanyController::class)->name('company','');
 Route::get('store/old-stores',[StoreController::class,'fetch_old_stores'])->name('store.fetch-old-stores');
 Route::get('api/fetch-company/{id?}',[CompanyController::class,'fetchstore']);

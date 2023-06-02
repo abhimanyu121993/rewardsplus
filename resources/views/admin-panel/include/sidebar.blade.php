@@ -40,11 +40,12 @@
                 {{-- <li><a class="lan-5" href="dashboard-02.html">Ecommerce</a></li> --}}
               </ul>
             </li>
-            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="lock"></i><span >Comapny</span></a>
+            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="lock"></i><span >Company</span></a>
                 <ul class="sidebar-submenu" style="display:block">
                   <li><a  href="{{route(Helper::getGuard().'.company.index')}}" >Companies</a></li>
                   <li><a  href="{{route(Helper::getGuard().'.store.index')}}" >Stores</a></li>
                   <li><a  href="{{route(Helper::getGuard().'.company.employee')}}" >Employee</a></li>
+                  <li><a  href="{{route(Helper::getGuard().'.company.employee-attendance')}}" >Attendance</a></li>
                   {{-- <li><a class="lan-5" href="dashboard-02.html">Ecommerce</a></li> --}}
                 </ul>
               </li>

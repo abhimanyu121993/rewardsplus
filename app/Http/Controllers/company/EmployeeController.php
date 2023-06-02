@@ -37,7 +37,9 @@ class EmployeeController extends Controller
                               $role .= Helper::roleName($rolename).',';
                 }                
                   return $role;
-            })->editColumn('company',function($employee){return $employee->company->name;})
+            })
+            ->addIndexColumn()
+            ->editColumn('company',function($employee){return $employee->company->name;})
             ->editColumn('store',function($employee){return $employee->store->name;})
             ->editColumn('store_code',function($employee){return $employee->store->detail->code;})
             ->addColumn('action', function($employee){

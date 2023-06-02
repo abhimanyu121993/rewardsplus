@@ -458,9 +458,9 @@ $(document).on('click','.assign-role',function(){
       var table = $('.data-table').DataTable({
           processing: true,
           serverSide: true,
-          ajax: "{{ route('company.employee.index') }}",
+          ajax: "{{ route(Helper::getGuard().'.employee.index') }}",
           columns: [
-              {data: 'id', name: 'id'},
+              {data: 'DT_RowIndex', name: 'DT_RowIndex'},
               {data: 'name', name: 'name'},
               {data: 'uniqid', name: 'uniqid'},
               {data: 'designation', name: 'designation', orderable: false, searchable: false},
