@@ -26,7 +26,7 @@
                                     <label for="example_input_full_name">
                                         Emp Code :
                                     </label>
-                                    <input type="text" value="{{$store->employee->emp_code??''}}" name="emp_code" id="emp_code" placeholder="Emp Code"
+                                    <input type="text" value="{{$employee->employee->emp_code??''}}" name="emp_code" id="emp_code" placeholder="Emp Code"
                                         class="form-control">
 
                                 </div>
@@ -42,7 +42,7 @@
                                     <label for="example_input_full_name">
                                         Name :
                                     </label>
-                                    <input type="text" value="{{$store->name??''}}" name="name" id="name" placeholder="Name" class="form-control">
+                                    <input type="text" value="{{$employee->name??''}}" name="name" id="name" placeholder="Name" class="form-control">
 
                                 </div>
 
@@ -50,7 +50,7 @@
                                     <label for="example_input_full_name">
                                         Contact:
                                     </label>
-                                    <input type="text" value="{{$store->mobile??''}}" name="contact" id="contact" placeholder="Contact"
+                                    <input type="text" value="{{$employee->mobile??''}}" name="contact" id="contact" placeholder="Contact"
                                         class="form-control">
                                 </div>
 
@@ -62,7 +62,7 @@
                                     <label for="example_input_full_name">
                                         Email:
                                     </label>
-                                    <input type="text" name="email" value="{{$store->email??''}}" id="email" placeholder="Email" class="form-control">
+                                    <input type="text" name="email" value="{{$employee->email??''}}" id="email" placeholder="Email" class="form-control">
                                 </div>
                             </div>
 
@@ -73,8 +73,8 @@
                                     </label>
                                     <select class="form-control company-detail" id="store_id" name="company_id">
                                         <option value="">Select Company</option>
-                                        @foreach($data as $data)
-                                        <option value="{{$data->id}}" {{isset($store)? ($store->company_id == $data->id ? 'selected' :''):''}}>{{$data->company_name}}</option>
+                                        @foreach($company as $data)
+                                        <option value="{{$data->id}}" {{isset($employee)? ($employee->company_id == $data->id ? 'selected' :''):''}}>{{$data->company_name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -92,7 +92,7 @@
                                     <label for="example_input_full_name">
                                         Pan No:
                                     </label>
-                                    <input type="text" value="{{$store->employee->pan_number??''}}" name="pan_no" id="pan_no" placeholder="Pan No"
+                                    <input type="text" value="{{$employee->employee->pan_number??''}}" name="pan_no" id="pan_no" placeholder="Pan No"
                                         class="form-control">
                                 </div>
 
@@ -100,7 +100,7 @@
                                     <label for="example_input_full_name">
                                         Account No:
                                     </label>
-                                    <input type="text" value="{{$store->employee->account_number??''}}" name="account_no" id="account_no" placeholder="Account No"
+                                    <input type="text" value="{{$employee->employee->account_number??''}}" name="account_no" id="account_no" placeholder="Account No"
                                         class="form-control">
                                 </div>
 
@@ -111,7 +111,7 @@
                                     <label for="example_input_full_name">
                                         IFSC Code:
                                     </label>
-                                    <input type="text" name="ifsc_code" value="{{$store->employee->ifsc_code??''}}" id="ifsc_code" placeholder="IFSC Code"
+                                    <input type="text" name="ifsc_code" value="{{$employee->detail->ifsc_code??''}}" id="ifsc_code" placeholder="IFSC Code"
                                         class="form-control">
                                 </div>
 
@@ -119,8 +119,8 @@
                                     <label for="example_input_full_name">
                                         Photo:
                                     </label>
-                                    <img src="{{asset('storage/'.$store->employee->photo)}}" style="height:70px;width:70px;" class="rounded" alt="np found">
-                                    <input type="file" value="{{$store->photo}}" class="form-control" id="photo" name="photo">
+                                    <img src="{{asset('storage/'.$employee->photo)}}" style="height:70px;width:70px;" class="rounded" alt="np found">
+                                    <input type="file" value="{{$employee->photo}}" class="form-control" id="photo" name="photo">
                                 </div>
                             </div>
 
@@ -132,7 +132,7 @@
                                     <label for="example_input_full_name">
                                         Address Proof:
                                     </label>
-                                    <img src="{{asset('storage/'.$store->employee->address_proof)}}" style="height:70px;width:70px;" class="rounded" alt="np found">
+                                    <img src="{{asset('storage/'.$employee->address_proof)}}" style="height:70px;width:70px;" class="rounded" alt="np found">
                                     <input type="file" class="form-control" id="address_proof" name="address_proof">
                                 </div>
 
@@ -140,7 +140,7 @@
                                     <label for="example_input_full_name">
                                         Aadhar:
                                     </label>
-                                    <img src="{{asset('storage/'.$store->employee->adhar_img)}}" style="height:70px;width:70px;" class="rounded" alt="np found">
+                                    <img src="{{asset('storage/'.$employee->detail->adhar_img)}}" style="height:70px;width:70px;" class="rounded" alt="np found">
                                     <input type="file" class="form-control" id="aadhar" name="aadhar">
                                 </div>
 
@@ -152,7 +152,7 @@
                                     <label for="example_input_full_name">
                                         Pancard:
                                     </label>
-                                    <img src="{{asset('storage/'.$store->employee->pancard_img)}}" style="height:70px;width:70px;" class="rounded" alt="np found">
+                                    <img src="{{asset('storage/'.$employee->detail->pancard_img)}}" style="height:70px;width:70px;" class="rounded" alt="np found">
                                     <input type="file" class="form-control" id="pancard" name="pancard">
                                 </div>
 
@@ -160,7 +160,7 @@
                                     <label for="example_input_full_name">
                                         Other:
                                     </label>
-                                    <img src="{{asset('storage/'.$store->employee->other_img)}}" style="height:70px;width:70px;" class="rounded" alt="np found">
+                                    <img src="{{asset('storage/'.$employee->detail->other_img)}}" style="height:70px;width:70px;" class="rounded" alt="np found">
                                     <input type="file" class="form-control" id="other" name="other">
                                 </div>
 
@@ -172,14 +172,14 @@
                                     <label for="example_input_full_name">
                                         Address :
                                     </label>
-                                    <input type="text" name="address" value="{{$store->employee->address??''}}" id="address" placeholder="Address"
+                                    <input type="text" name="address" value="{{$employee->detail->address??''}}" id="address" placeholder="Address"
                                         class="form-control">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="example_input_full_name">
                                         Aadhar No :
                                     </label>
-                                    <input type="text" name="aadhar_no" value="{{$store->employee->adhar_number??''}}" id="aadhar_no" placeholder="Aadhar No"
+                                    <input type="text" name="aadhar_no" value="{{$employee->detail->adhar_number??''}}" id="aadhar_no" placeholder="Aadhar No"
                                         class="form-control">
                                 </div>
 

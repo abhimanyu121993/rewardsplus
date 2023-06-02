@@ -77,6 +77,7 @@
                     <th>Clock-In</th>
                     <th>Clock-Out</th>
                     <th>Status</th>
+                    <th>Sale</th>
                 </tr>
             </thead>
             <tbody>
@@ -131,6 +132,7 @@
               {data: 'clock_in', name: 'clock_in'},
               {data: 'clock_out', name: 'clock_out'},
               {data: 'status', name: 'status'},
+              {data: 'sale', name: 'sale'},
           ],
       });
               

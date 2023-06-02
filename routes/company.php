@@ -34,6 +34,7 @@ Route::group(['prefix' => 'role-permission', 'as' => 'role-permission.'], functi
     Route::post('assign-permission', [RolePermissionController::class, 'assign_permission'])->name('assign-permission');
     Route::get('fetch-role', [RoleController::class, 'fetch_role'])->name('fetch-role');
     Route::post('assign-roles', [RolePermissionController::class, 'assign_roles'])->name('assign-roles');
+    Route::get('revoke-role/{eid}/{role}',[RolePermissionController::class,'revoke_role'])->name('revoke-role');
     Route::get('/isactive/{id}', [RoleController::class, 'is_active'])->name('active-role');
     Route::get('customer-has-permission', [RoleController::class, 'fetch_role']);
 });

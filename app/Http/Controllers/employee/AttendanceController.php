@@ -12,6 +12,7 @@ use App\Helpers\Helper;
 use App\Imports\AttendanceImport;
 use App\Models\Employee;
 use Maatwebsite\Excel\Facades\Excel;
+use Yajra\DataTables\Facades\DataTables;
 
 class AttendanceController extends Controller
 {
@@ -58,7 +59,7 @@ class AttendanceController extends Controller
     
     function bulk_attendance(Request $req)
     {
-        $datas=$req->except('_token');
+        $datas=$req->except('_token','DataTables_Table_0_length');
         try{
             foreach($datas as $k=>$d){
                 Attendance::updateOrCreate([
@@ -69,7 +70,8 @@ class AttendanceController extends Controller
                     'date'=>Carbon::now()->format('Y-m-d'),
                     'clock_in'=>$d['clock_in'],
                     'clock_out'=>$d['clock_out'],
-                    'status'=>$d['status']??'na'
+                    'status'=>$d['status']??'na',
+                    'today_sale'=>$d['today_sale']??0.00
                 ]);
             }
             return redirect()->back()->with('toast_success','Attendance marked successfully');
@@ -108,9 +110,90 @@ class AttendanceController extends Controller
         })->paginate(10);
         return view('employee.attendance.export',compact('attendances','filter'));
     }
-    public function employee_list()
+    public function employee_list(Request $req)
     {
         $employees=Employee::where('store_id',Auth::guard(Helper::getGuard())->user()->store_id)->get();
+        if($req->ajax()){
+            return DataTables::of($employees)->editColumn('clock_in',function($employee){
+                $dt='<input type="time" name="'.$employee->id.'[clock_in]'.'" id="" class="form-control" value="';
+                $dt .=$employee->today_attendance?$employee->today_attendance->clock_in:'';
+                $dt .='"';
+                if(isset($employee->today_attendance) and $employee->today_attendance->clock_in!=null){ 
+                if(Auth::guard(Helper::getGuard())->user()->hasPermissionTo('Bulk Attendance_edit','employee'))
+                { 
+                }
+                else{
+                    $dt .='readonly';
+                }
+                }
+                $dt .= '>';
+                return $dt;
+                })
+                ->editColumn('clock_out',function($employee){
+                 $dt='<input type="time" name="'.$employee->id.'[clock_out]'.'" id="" class="form-control" value="';
+                 $dt .=$employee->today_attendance?$employee->today_attendance->clock_out:'';
+                 $dt .='"';
+                 if(isset($employee->today_attendance) and $employee->today_attendance->clock_out!=null){ 
+                    if(Auth::guard(Helper::getGuard())->user()->hasPermissionTo('Bulk Attendance_edit','employee'))
+                    {  
+                    }
+                    else{
+                        $dt .='readonly';
+                    }
+                    }
+                 $dt .= '>';
+                 return $dt;
+                 })
+                 ->editColumn('status',function($employee){
+                    $dt='<select name="'.$employee->id.'[status]'.'" id="" class="form-select"';
+                    if(isset($employee->today_attendance) and $employee->today_attendance->status!=null ){ 
+                        if(Auth::guard(Helper::getGuard())->user()->hasPermissionTo('Bulk Attendance_edit','employee'))
+                        {  
+                        }
+                        else{
+                            $dt .=$employee->today_attendance->status=='na'?'':'disabled';
+                        }
+                        }
+                     $dt .= '>';
+                     $dt .='<option value="" disabled selected hidden>Choose Status</option>';
+                    $dt .='<option value="present"';
+                         if(isset($employee->today_attendance) and $employee->today_attendance->status=='present'){
+                             $dt .='selected';
+                         }
+                         $dt .='>Present</option>';
+                         $dt .='<option value="absent"';
+                             if(isset($employee->today_attendance) and $employee->today_attendance->status=='absent'){
+                                 $dt .='selected';
+                             }
+                             $dt .='  >Absent</option><option value="paid-leave"';
+                             if(isset($employee->today_attendance) and $employee->today_attendance->status=='paid-leave'){
+                                 $dt .='selected';
+                             }
+                             $dt .='  >Paid-Leave</option><option value="unpaid-leave"';
+                             if(isset($employee->today_attendance) and $employee->today_attendance->status=='unpaid-leave'){
+                                 $dt .='selected';
+                             }
+                             $dt .='  >Unpaid-Leave</option><option value="half-day"';
+                             if(isset($employee->today_attendance) and $employee->today_attendance->status=='half-day'){
+                                 $dt .='selected';
+                             }
+                             $dt .='  >Half-Day</option>';
+                             $dt .='</select>'; 
+                         
+                         return $dt;
+                     })
+                ->editColumn('today_sale',function($employee){
+                    $dt='<input type="number" step="0.01" name="'.$employee->id.'[today_sale]" id="" class="form-control" value="'.$employee->today_attendance->today_sale.'">';
+                    return $dt;
+                })
+                ->editColumn('sale',function($employee){
+                    $dt='<input type="number" step="0.1" name="'.$employee->id.'[today_sale]" id="" class="form-control" value="';
+                    $dt .=$employee->today_attendance?$employee->today_attendance->today_sale:'0.00';
+                    $dt .='">';
+                    return $dt;
+                })
+                ->rawColumns(['clock_in','clock_out','status','sale'])->make(true);         
+        }
         $date=Carbon::now()->format('d-m-Y');
         return view('employee.attendance.bulk',compact('employees','date'));
     }

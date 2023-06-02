@@ -13,7 +13,7 @@
   <script src="../assets/js/sidebar-menu.js"></script>
   <!-- Template js-->
   <script src="../assets/js/script.js"></script>
-  <script src="../assets/js/theme-customizer/customizer.js">  </script>
+  {{-- <script src="../assets/js/theme-customizer/customizer.js">  </script> --}}
   <!-- login js-->
   
     <script src="../assets/js/form-validation-custom.js"></script>

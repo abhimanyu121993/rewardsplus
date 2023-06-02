@@ -43,6 +43,7 @@
                     <th>Clock-In</th>
                     <th>Clock-Out</th>
                     <th>Status</th>
+                    <th>Sale</th>
                 </tr>
             </thead>
             <tbody>
@@ -89,12 +90,15 @@
       var table = $('.data-table').DataTable({
           processing: true,
           serverSide: true,
-          ajax: "{{ route(Helper::getGuard().'.attendance.bulk-attendance-get') }}",
+          ajax: "{{ route(Helper::getGuard().'.attendance.employee-list') }}",
           columns: [
               {data: 'id', name: 'id'},
               {data: 'name', name: 'name'},
               {data: 'uniqid', name: 'uniqid'},
               {data: 'clock_in', name: 'clock_in'},
+              {data: 'clock_out', name: 'clock_out'},
+              {data: 'status', name: 'status'},
+              {data: 'sale', name: 'sale'},
           ],
       });
               

@@ -45,33 +45,38 @@ class AttendanceController extends Controller
            $dt='<select name="'.$employee->id.'[status]'.'" id="" class="form-select">';
             $dt .='<option value="" disabled selected hidden>Choose Status</option>';
              $dt .='<option value="present"';
-            if(isset($employee->today_attendance)){
-                if($employee->today_attendance->status=='present'){
+                if(isset($employee->today_attendance) and $employee->today_attendance->status=='present'){
                     $dt .='selected';
                 }
                 $dt .='>Present</option>';
                 $dt .='<option value="absent"';
-                    if($employee->today_attendance->status=='absent'){
+                    if(isset($employee->today_attendance) and $employee->today_attendance->status=='absent'){
                         $dt .='selected';
                     }
                     $dt .='  >Absent</option><option value="paid-leave"';
-                    if($employee->today_attendance->status=='paid-leave'){
+                    if(isset($employee->today_attendance) and $employee->today_attendance->status=='paid-leave'){
                         $dt .='selected';
                     }
                     $dt .='  >Paid-Leave</option><option value="unpaid-leave"';
-                    if($employee->today_attendance->status=='unpaid-leave'){
+                    if(isset($employee->today_attendance) and $employee->today_attendance->status=='unpaid-leave'){
                         $dt .='selected';
                     }
                     $dt .='  >Unpaid-Leave</option><option value="half-day"';
-                    if($employee->today_attendance->status=='half-day'){
+                    if(isset($employee->today_attendance) and $employee->today_attendance->status=='half-day'){
                         $dt .='selected';
                     }
                     $dt .='  >Half-Day</option>';
                     $dt .='</select>'; 
-                }
+                
                 return $dt;
             })
-       ->rawColumns(['clock_in','clock_out','status'])->make(true);
+            ->editColumn('sale',function($employee){
+                $dt='<input type="number" step="0.01" name="'.$employee->id.'[today_sale]" id="" class="form-control" value="';
+                $dt .=$employee->today_attendance?$employee->today_attendance->today_sale:0.0;
+                $dt .='">';
+                return $dt;
+            })
+       ->rawColumns(['clock_in','clock_out','status','sale'])->make(true);
       }
       return view('company.attendance',compact('employees','date'));
     }
@@ -91,7 +96,8 @@ class AttendanceController extends Controller
                 'date'=>Carbon::now()->format('Y-m-d'),
                 'clock_in'=>$d['clock_in'],
                 'clock_out'=>$d['clock_out'],
-                'status'=>$d['status']??'na'
+                'status'=>$d['status']??'na',
+                'today_sale'=>$d['today_sale']
             ]);
         }
         return redirect()->back()->with('toast_success','Attendance marked successfully');

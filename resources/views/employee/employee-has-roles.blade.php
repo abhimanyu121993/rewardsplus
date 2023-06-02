@@ -21,7 +21,7 @@
 <div class="row mt-1">
     <div class="col-4">
         @foreach ($assingedRoles as $asrole)
-       <span class="badge rounded-pill badge-primary">{{ Helper::roleName($asrole) }}</span>
+       <span class="badge rounded-pill badge-primary">{{ Helper::roleName($asrole) }} <a href="{{ route(Helper::getGuard().'.role-permission.revoke-role',[$employee->id,$asrole]) }}" class="text-danger">X</a></span>
         @endforeach
     </div>
 </div>

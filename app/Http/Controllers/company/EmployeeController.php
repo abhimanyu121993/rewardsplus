@@ -49,7 +49,7 @@ class EmployeeController extends Controller
                                   
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                       <li><a class="dropdown-item assign-role" href="#" data-employee_id="'. $employee->id.'"><i class="fa fa-rocket text-warning"></i> Assign Role</a></li>
-                                      <li><a class="dropdown-item" href="#"><i class="fa fa-pencil-square-o text-primary"></i> Edit</a></li>
+                                      <li><a class="dropdown-item employee_route"  href="#"  data-url="'.route('admin.employee.edit', $employee->id).'"  data-bs-toggle="modal" data-bs-target="#updateemployee" ><i class="fa fa-pencil-square-o text-primary"></i> Edit</a></li>
                                       <li><a class="dropdown-item" href="#"><i class="fa fa-trash-o text-danger"></i> Delete</a></li>
                                     </ul>
                                   </div>
@@ -139,9 +139,9 @@ class EmployeeController extends Controller
      */
     public function edit(string $id)
     {
-        $store=Employee::find($id);
-        $data = CompanyDetail::get(['company_name','id']);
-        return view('employee.edit',compact('store','data'));
+        $employee=Employee::find($id);
+        $company = CompanyDetail::get(['company_name','id']);
+        return view('employee.edit',compact('employee','company'));
     }
     public function fetchcompany($id)
     {

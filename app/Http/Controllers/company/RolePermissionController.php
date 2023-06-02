@@ -93,6 +93,19 @@ class RolePermissionController extends Controller
         return redirect()->back()->with('error','Role Can\'t Assign');
     }
  }
-
+ // Revoke role
+ public function revoke_role($eid,$role)
+ {
+    try{
+    $emp=Employee::find($eid);
+    if($emp){
+        $emp->removeRole($role);
+    }
+    return redirect()->back()->with('success','Role revoke from user successfully');
+    }
+    catch(Exception $ex){
+        return redirect()->back()->with('error',$ex->getMessage());
+    }
+ }
 }
 
