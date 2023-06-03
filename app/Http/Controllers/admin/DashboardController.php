@@ -40,7 +40,8 @@ class DashboardController extends Controller
             $filter = $req->filter ?? '';
             return view('admin-panel.dashboard', compact('analyticsData', 'totalVisitorPageview', 'bounce_rate', 'citywiseusers', 'avgspenttime', 'devicewise', 'colors', 'datewise', 'filter'));
         } catch (\Exception $e) {
-            return redirect()->route('admin.company.index');
+            return $e->getMessage();
+            // return redirect()->route('admin.company.index');
         }
     }
 }

@@ -5,6 +5,7 @@ use App\Http\Controllers\admin\AuthController as AdminAuth;
 use App\Http\Controllers\employee\AuthController as EmployeeAuth;
 use App\Http\Controllers\store\AuthController as StoreAuth;
 use App\Http\Controllers\company\AuthController as CompanyAuth;
+use App\Http\Controllers\GeneralController;
 use Carbon\Carbon;
 use Spatie\Analytics\Facades\Analytics;
 use Spatie\Analytics\Period;
@@ -51,4 +52,8 @@ use Spatie\Analytics\Period;
         Route::get('/',function(){return redirect()->route('company.auth.login');});
         Route::get('login',[CompanyAuth::class,'login_view'])->name('login-view');
         Route::post('login',[CompanyAuth::class,'login'])->name('login');
+    });
+    Route::group(['prefix'=>'general','as'=>'general.'],function(){
+        Route::post('get-state',[GeneralController::class,'get_state_by_country'])->name('get-state');
+        Route::post('get-city',[GeneralController::class,'get_state_by_city'])->name('get-city');
     });

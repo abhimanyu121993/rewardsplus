@@ -42,5 +42,6 @@ Route::get('store/old-stores',[StoreController::class,'fetch_old_stores'])->name
 Route::get('api/fetch-company/{id?}',[CompanyController::class,'fetchstore']);
 Route::get('api/fetch-store/{id?}',[EmployeeController::class,'fetchcompany']);
 Route::resource('store',StoreController::class)->name('store','');
+Route::post('store/store',[StoreController::class,'store'])->name('store.store');
 Route::resource('employee',EmployeeController::class)->name('employee','');
 

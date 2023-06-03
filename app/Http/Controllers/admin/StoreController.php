@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Store;
 use App\Models\Company;
 use App\Models\CompanyDetail;
+use App\Models\Country;
 use App\Models\StoreDetail;
 use Session;
 class StoreController extends Controller
@@ -21,8 +22,9 @@ class StoreController extends Controller
     public function index()
     {
         $stores=Store::latest()->paginate(10);
+        $countries=Country::get();
         $company=CompanyDetail::all();
-        return view('store.list',compact('stores','company'));
+        return view('store.list',compact('stores','company','countries'));
     }
 
     /**
@@ -36,7 +38,7 @@ class StoreController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Store $store)
+public function store(Request $request)
 {
     $request->validate([
         

@@ -25,11 +25,11 @@
             </li>
 
 
-            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" href="support-ticket.html"><i data-feather="users"> </i><span>Support Ticket</span></a></li>
+            {{-- <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" href="support-ticket.html"><i data-feather="users"> </i><span>Support Ticket</span></a></li>
 
              <li class="back-btn">
               <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
-            </li>
+            </li> --}}
             <li class="pin-title sidebar-list">
               <h6>Pinned</h6>
             </li>
@@ -49,7 +49,7 @@
                   {{-- <li><a class="lan-5" href="dashboard-02.html">Ecommerce</a></li> --}}
                 </ul>
               </li>
-              <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" href="support-ticket.html"><i data-feather="users"> </i><span>Employee</span></a></li>
+              {{-- <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" href="support-ticket.html"><i data-feather="users"> </i><span>Employee</span></a></li> --}}
           </ul>
         </div>
         <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>

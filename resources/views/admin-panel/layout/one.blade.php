@@ -53,5 +53,43 @@
   @include('admin-panel.include.foot')
   @yield('script-area');
   @include('sweetalert::alert')
+  <script>
+    $(document).on('change','#country_id',function(){
+    var id=$(this).val();
+    $.ajax({
+      url:"{{ route('general.get-state') }}",
+      method:'post',
+      data:{
+        '_token':'{{ csrf_token() }}',
+        'country_id':id
+      },
+      beforeSend:function(){
+        $('#state_id').attr('disabled','true');
+      },
+      success:function(r){
+        $('#state_id').html(r);
+        $('#state_id').removeAttr('disabled');
+      }
+    });
+    $(document).on('change','#state_id',function(){
+    var id=$(this).val();
+    $.ajax({
+      url:"{{ route('general.get-city') }}",
+      method:'post',
+      data:{
+        '_token':'{{ csrf_token() }}',
+        'state_id':id
+      },
+      beforeSend:function(){
+        $('#city_id').attr('disabled','true');
+      },
+      success:function(r){
+        $('#city_id').html(r);
+        $('#city_id').removeAttr('disabled');
+      }
+    });
+  })
+})
+  </script>
   </body>
 </html>

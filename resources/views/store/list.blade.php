@@ -95,7 +95,7 @@
                     data-bs-original-title="" title=""></button>
             </div>
             <div class="modal-body">
-                <form action="{{route('admin.')}}" method="post">
+                <form action="{{route(Helper::getGuard().'.store.store')}}" method="post">
                     @csrf
                     <div class="col-12 p-0">
                         <!-- store Name -->
@@ -107,7 +107,9 @@
                                         <div class="selectdiv">
                                             <select class="form-control" id="country_id" name="country_id">
                                                 <option value="">Select Type</option>
-                                                <option value="100">India </option>
+                                                @foreach ($countries as $country)
+                                                    <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
